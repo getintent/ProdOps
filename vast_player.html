@@ -1,0 +1,50 @@
+<html>
+
+<head>
+  <title>GetIntent VAST player</title>
+  <link href="/ProdOps/rtb/dist/app.css?v=1471592471958" rel="stylesheet">
+  <script type="text/javascript">
+    var vastAutoplay = true;
+    var searchParams = new URLSearchParams(window.location.search);
+    var vastUrl = searchParams.get("vast_url");
+    if (vastUrl) {
+      vastUrl = decodeURIComponent(vastUrl);
+    }
+    console.log("vast_url from query params: " + vastUrl);
+
+    function reloadWithParam(paramName, paramValue) {
+      var searchParams = new URLSearchParams(window.location.search);
+      searchParams.set(paramName, paramValue);
+      document.location.href = "?" + searchParams.toString();
+    }
+
+    function reloadVast() {
+      var vastUrlInput = document.getElementById("vast_url_input");
+      vastUrl = vastUrlInput.value;
+      var encodedVastUrl = encodeURIComponent(vastUrl);
+      reloadWithParam('vast_url', encodedVastUrl)
+    }
+  </script>
+</head>
+
+<body>
+  <div>
+    <button id="reload_button" onclick="reloadVast();">Load VAST URL</button>
+    <input id="vast_url_input" type="url" size="80" placeholder="https://your.server.com/vast/url?with=parameters">
+  </div>
+  <div>
+  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+    <source src="/ProdOps/rtb/dist/gi_splash.mp4"
+            type="video/mp4">
+    </source>
+  </video>
+  </div>
+  <script src="/ProdOps/rtb/dist/app.js?v=1471592471958"></script>
+  <script>
+    if (vastUrl) {
+      document.getElementById("vast_url_input").value = vastUrl;
+    }
+  </script>
+</body>
+
+</html>
